@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="affiliate" translate="label" sortOrder="250">
+            <label>PressLoft</label>
+        </tab>
+        <section id="affiliate" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Affiliate</label>
+            <tab>affiliate</tab>
+            <resource>PressLoft_Affiliate::affiliate</resource>
+            <group id="affiliate" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Affiliate</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="10"  showInWebsite="1" showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="affiliate_id" translate="label comment" type="text" sortOrder="20" showInDefault="1"  showInWebsite="1" showInStore="1">
+                    <label>Affiliate ID</label>
+                    <comment>Enter affiliate ID</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

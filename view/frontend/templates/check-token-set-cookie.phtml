@@ -1,0 +1,24 @@
+<?php
+
+use PressLoft\Affiliate\Model\Affiliate;
+
+?>
+<script>
+    require(
+        [
+            "jquery",
+            'jquery/jquery.cookie'
+        ],
+        function ($) {
+            "use strict";
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams) {
+                const tokenName ='<?= Affiliate::TOKEN ?>';
+                const tokenValue = urlParams.get(tokenName);
+                if (tokenValue) {
+                    $.cookie(tokenName, tokenValue, { expires: 7, path: '/' });
+                }
+            }
+        }
+    );
+</script>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order_affiliate">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="token" nullable="false" length="255" comment="Token"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SALES_ORDER_AFFILIATE_ORDER_ID_SALES_ORDER_ENTITY_ID" table="sales_order_affiliate"
+                    column="order_id" referenceTable="sales_order" referenceColumn="entity_id"/>
+    </table>
+    <table name="affiliate_schedule">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="affiliate_id" unsigned="true" nullable="false" comment="Affiliate ID"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="255" comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <column xsi:type="int" name="failures_num" padding="10" unsigned="true" nullable="false" comment="Failures Num"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AFFILIATE_SCHEDULE_AFFILIATE_ID_SALES_ORDER_AFFILIATE_ID" table="affiliate_schedule"
+                    column="affiliate_id" referenceTable="sales_order_affiliate" referenceColumn="id"/>
+    </table>
+</schema>

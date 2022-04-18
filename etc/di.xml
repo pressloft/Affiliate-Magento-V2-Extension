@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Api\GuestPaymentInformationManagementInterface">
+        <plugin name="guest_payment_information_management_interface_plugin"
+                type="PressLoft\Affiliate\Plugin\Api\GuestPaymentInformationManagementInterfacePlugin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Checkout\Api\PaymentInformationManagementInterface">
+        <plugin name="payment_information_management_interface_plugin"
+                type="PressLoft\Affiliate\Plugin\Api\PaymentInformationManagementInterfacePlugin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="affiliate_index_listing_data_source" xsi:type="string">PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">affiliate_schedule</argument>
+            <argument name="resourceModel" xsi:type="string">PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule</argument>
+        </arguments>
+    </virtualType>
+</config>

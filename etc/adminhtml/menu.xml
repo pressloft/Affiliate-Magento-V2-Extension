@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="PressLoft_Affiliate::group_affiliate"
+             title="Affiliate"
+             module="PressLoft_Affiliate"
+             sortOrder="390"
+             parent="Magento_Backend::stores"
+             resource="PressLoft_Affiliate::affiliate"
+        />
+
+        <add id="PressLoft_Affiliate::affiliate"
+             title="Affiliate CronJob"
+             translate="title"
+             module="PressLoft_Affiliate"
+             sortOrder="400"
+             parent="PressLoft_Affiliate::group_affiliate"
+             action="affiliate/index"
+             resource="PressLoft_Affiliate::affiliate"
+        />
+    </menu>
+</config>

@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="sales_order_affiliate">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
-        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Order ID"/>
         <column xsi:type="varchar" name="token" nullable="false" length="255" comment="Token"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>

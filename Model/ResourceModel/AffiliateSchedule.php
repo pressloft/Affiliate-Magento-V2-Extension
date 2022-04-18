@@ -2,8 +2,12 @@
 
 namespace PressLoft\Affiliate\Model\ResourceModel;
 
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class AffiliateSchedule extends AbstractDb
 {
     /**
@@ -25,6 +29,7 @@ class AffiliateSchedule extends AbstractDb
     public function tryLockItems(array $ids): void
     {
         $connection = $this->getConnection();
+        /** @var AdapterInterface $connection */
         $connection->update(
             $this->getTable('affiliate_schedule'),
             ['status' => \PressLoft\Affiliate\Model\AffiliateSchedule::STATUS_PENDING],

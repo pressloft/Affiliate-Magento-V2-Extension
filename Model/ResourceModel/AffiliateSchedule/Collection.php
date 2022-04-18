@@ -5,6 +5,9 @@ namespace PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use PressLoft\Affiliate\Model\AffiliateSchedule;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class Collection extends AbstractCollection
 {
     /**

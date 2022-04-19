@@ -14,9 +14,6 @@ use PressLoft\Affiliate\Model\AffiliateSchedule;
 use PressLoft\Affiliate\Model\AffiliateScheduleFactory;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule as AffiliateScheduleResourceModel;
 
-/**
- * @SuppressWarnings(PHPMD.LongVariable)
- */
 class GetDataAndSendRequest
 {
     /**
@@ -158,6 +155,7 @@ class GetDataAndSendRequest
             }
             $item->setData('failures_num', ++$failuresNum);
         }
+        $item->setData('updated_at', null);
         $this->resourceModel->save($item);
     }
 

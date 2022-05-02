@@ -3,6 +3,10 @@
     <body>
         <referenceContainer name="content">
             <uiComponent name="affiliate_index_listing"/>
+            <block class="PressLoft\Affiliate\Block\Adminhtml\LastSynchronized"
+                   name="last_synchronized"
+                   template="PressLoft_Affiliate::last_synchronized.phtml"
+            />
         </referenceContainer>
     </body>
 </page>

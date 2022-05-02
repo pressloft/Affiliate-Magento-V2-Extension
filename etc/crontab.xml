@@ -4,5 +4,8 @@
         <job name="pressloft_affiliate_send_data" instance="PressLoft\Affiliate\Cron\SendDataToPressLoft" method="execute">
             <schedule>* * * * *</schedule>
         </job>
+        <job name="pressloft_affiliate_check_affiliate_id" instance="PressLoft\Affiliate\Cron\UsageCheck" method="execute">
+            <schedule>0 * * * *</schedule>
+        </job>
     </group>
 </config>

@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="PressLoft_Affiliate::group_affiliate"
-             title="Affiliate"
+             title="Press Loft Affiliate"
              module="PressLoft_Affiliate"
              sortOrder="390"
              parent="Magento_Backend::stores"
@@ -10,7 +10,7 @@
         />
 
         <add id="PressLoft_Affiliate::affiliate"
-             title="Affiliate CronJob"
+             title="Logs"
              translate="title"
              module="PressLoft_Affiliate"
              sortOrder="400"

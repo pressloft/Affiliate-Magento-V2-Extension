@@ -28,7 +28,7 @@ class Index implements HttpGetActionInterface
     public function execute(): Page
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend(__('Affiliate CronJob'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Logs'));
         return $resultPage;
     }
 }

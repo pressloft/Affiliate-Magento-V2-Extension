@@ -1,0 +1,12 @@
+<?php /** @var \PressLoft\Affiliate\Block\Adminhtml\LastSynchronized $block */ ?>
+<?php $data = $block->getLastSynchronized(); ?>
+<?php if (isset($data)) :?>
+    <div class="info-block last-synchronized">
+        <h2>
+            <span><?= $block->escapeHtml(__('Last Heartbeat')) ?></span>
+        </h2>
+        <p>
+            <span class="text-success"><?= $block->escapeHtml(__('Date and time: ' . $data['time']))?></span>
+        </p>
+    </div>
+<?php endif; ?>

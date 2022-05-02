@@ -11,8 +11,8 @@ class Config
      * Path to configuration
      */
     const XML_PATH_ENABLED = 'affiliate/affiliate/enable';
-
     const XML_PATH_AFFILIATE_ID = 'affiliate/affiliate/affiliate_id';
+    const XML_PATH_SYNCHRONIZED = 'affiliate/affiliate/synchronized';
 
     /**
      * @var ScopeConfigInterface
@@ -50,6 +50,19 @@ class Config
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_AFFILIATE_ID,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Get last synchronized
+     *
+     * @return string
+     */
+    public function getSynchronized(): string
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SYNCHRONIZED,
             ScopeInterface::SCOPE_STORE
         );
     }

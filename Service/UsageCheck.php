@@ -10,9 +10,6 @@ use Magento\Framework\Webapi\Rest\Request;
 use PressLoft\Affiliate\Helper\Config as Helper;
 use Magento\Config\Model\ResourceModel\Config;
 
-/**
- * Class GitApiService
- */
 class UsageCheck
 {
     /**

@@ -35,7 +35,7 @@ class LastSynchronized extends Template
     /**
      * Get last synchronized for template
      *
-     * @return mixed|string
+     * @return array<mixed>|bool|float|int|string|null
      */
     public function getLastSynchronized()
     {

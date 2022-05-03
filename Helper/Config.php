@@ -57,9 +57,9 @@ class Config
     /**
      * Get last synchronized
      *
-     * @return string
+     * @return string|null
      */
-    public function getSynchronized(): string
+    public function getSynchronized(): ?string
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_SYNCHRONIZED,

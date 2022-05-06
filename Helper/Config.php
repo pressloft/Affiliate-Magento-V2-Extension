@@ -2,6 +2,7 @@
 
 namespace PressLoft\Affiliate\Helper;
 
+use Magento\Config\Model\ResourceModel\Config\Data\CollectionFactory;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
@@ -20,12 +21,20 @@ class Config
     protected $scopeConfig;
 
     /**
+     * @var CollectionFactory
+     */
+    protected $collectionFactory;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
+     * @param CollectionFactory $collectionFactory
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        CollectionFactory $collectionFactory
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->collectionFactory = $collectionFactory;
     }
 
     /**
@@ -61,9 +70,9 @@ class Config
      */
     public function getSynchronized(): ?string
     {
-        return $this->scopeConfig->getValue(
-            self::XML_PATH_SYNCHRONIZED,
-            ScopeInterface::SCOPE_STORE
-        );
+        $collection = $this->collectionFactory->create();
+        $collection->addScopeFilter('default', 0, 'affiliate')
+            ->addFieldToFilter('path', self::XML_PATH_SYNCHRONIZED);
+        return $collection->getFirstItem()->getValue();
     }
 }

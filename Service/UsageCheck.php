@@ -23,6 +23,11 @@ class UsageCheck
     const API_REQUEST_ENDPOINT = 'heartbeat?id=';
 
     /**
+     * Success status code from response
+     */
+    const SUCCESS_STATUS_CODE = 200;
+
+    /**
      * @var ResponseFactory
      */
     private $responseFactory;
@@ -67,15 +72,17 @@ class UsageCheck
     {
         $response = $this->doRequest(static::API_REQUEST_ENDPOINT . $this->helper->getAffiliateId());
         if (!empty($response)) {
-            $data = json_encode([
-                'status' => $response->getStatusCode(),
-                'time' => date('Y-m-d H:i:s')
-            ]);
-            if ($data) {
-                $this->resourceConfig->saveConfig(
-                    Helper::XML_PATH_SYNCHRONIZED,
-                    $data
-                );
+            if ($response->getStatusCode() == self::SUCCESS_STATUS_CODE) {
+                $data = json_encode([
+                    'status' => $response->getStatusCode(),
+                    'time' => date('Y-m-d H:i:s')
+                ]);
+                if ($data) {
+                    $this->resourceConfig->saveConfig(
+                        Helper::XML_PATH_SYNCHRONIZED,
+                        $data
+                    );
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ use PressLoft\Affiliate\Model\AffiliateSchedule;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule as ResourceModel;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\Collection;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\CollectionFactory;
+use PressLoft\Affiliate\Service\ApiRequest;
 use PressLoft\Affiliate\Service\GetDataAndSendRequest;
 
 class GetDataAndSendRequestTest extends TestCase
@@ -85,7 +86,7 @@ class GetDataAndSendRequestTest extends TestCase
     {
         $affiliateId = '12345';
         $configApi = ['config' => [
-            'base_uri' => GetDataAndSendRequest::API_REQUEST_URI
+            'base_uri' => ApiRequest::API_REQUEST_URI
         ]];
         $uriEndpoint = GetDataAndSendRequest::API_REQUEST_ENDPOINT;
         $params = [

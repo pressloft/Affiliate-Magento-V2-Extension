@@ -2,14 +2,17 @@
 
 namespace PressLoft\Affiliate\Model;
 
-use Magento\Framework\DataObject;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
+use Magento\Sales\Api\Data\OrderInterface;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\Collection;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\CollectionFactory;
 
 /**
+ * @method string|null getToken()
+ * @method int|string|null getOrderId()
+ * @method int|string|null getFailuresNum()
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class AffiliateSchedule extends AbstractModel
@@ -23,6 +26,11 @@ class AffiliateSchedule extends AbstractModel
     const STATUS_MISSED = 'missed';
     const STATUS_ERROR = 'error';
 
+    const AFFILIATE_ID = 'affiliate_id';
+    const STATUS = 'status';
+    const ORDER = 'order';
+    const ORDER_ID = 'order_id';
+
     /**
      * @var CollectionFactory
      */
@@ -34,25 +42,11 @@ class AffiliateSchedule extends AbstractModel
     protected $_resource;
 
     /**
-     * Name of object affiliate id field
-     *
-     * @var string
-     */
-    protected $orderId = 'affiliate_id';
-
-    /**
-     * Name of object status field
-     *
-     * @var string
-     */
-    protected $status = 'status';
-
-    /**
      * @param Context $context
      * @param Registry $registry
      * @param CollectionFactory $collectionFactory
      * @param ResourceModel\AffiliateSchedule $resourceModel
-     * @param Collection $collection
+     * @param Collection<\PressLoft\Affiliate\Model\AffiliateSchedule> $collection
      * @param array<mixed> $data
      */
     public function __construct(
@@ -94,12 +88,13 @@ class AffiliateSchedule extends AbstractModel
     /**
      * Get items for cronjob
      *
-     * @return array<DataObject>
+     * @return AffiliateSchedule[]
      */
     public function getPendingItems(): array
     {
         $collection = $this->collectionFactory->create()->getItemsForSendData();
         $ids = $collection->getAllIds();
+        /** @var AffiliateSchedule[] $items */
         $items = $collection->getItems();
         $this->_resource->tryLockItems($ids);
         return $items;
@@ -113,7 +108,7 @@ class AffiliateSchedule extends AbstractModel
      */
     public function setAffiliateId($value): AffiliateSchedule
     {
-        $this->setData($this->orderId, $value);
+        $this->setData(self::AFFILIATE_ID, $value);
         return $this;
     }
 
@@ -125,7 +120,25 @@ class AffiliateSchedule extends AbstractModel
      */
     public function setStatus($value): AffiliateSchedule
     {
-        $this->setData($this->status, $value);
+        $this->setData(self::STATUS, $value);
         return $this;
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return $this
+     */
+    public function setOrder(\Magento\Sales\Api\Data\OrderInterface $order): AffiliateSchedule
+    {
+        $this->setData(self::ORDER, $order);
+        return $this;
+    }
+
+    /**
+     * @return OrderInterface|null
+     */
+    public function getOrder()
+    {
+        return $this->_getData(self::ORDER);
     }
 }

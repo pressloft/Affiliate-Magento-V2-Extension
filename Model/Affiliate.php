@@ -26,7 +26,7 @@ class Affiliate extends AbstractModel
     /**
      * Cookie name
      */
-    const TOKEN = 'token';
+    const TOKEN = 'pltoken';
 
     /**
      * @return void

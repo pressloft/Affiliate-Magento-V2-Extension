@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace PressLoft\Affiliate\Test\Unit\Model;
 
-use Magento\Framework\Data\Collection\AbstractDb;
+use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\CollectionFactory;
+use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\Collection;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,9 +28,13 @@ class AffiliateScheduleTest extends TestCase
      */
     private $resource;
     /**
-     * @var AbstractDb | MockObject
+     * @var Collection | MockObject
      */
     private $resourceCollection;
+    /**
+     * @var CollectionFactory | MockObject
+     */
+    private $collectionFactory;
     /**
      * @var AffiliateSchedule
      */
@@ -48,11 +53,19 @@ class AffiliateScheduleTest extends TestCase
             ->method('getIdFieldName')
             ->willReturn('id');
 
-        $this->resourceCollection = $this->createMock(AbstractDb::class);
+        $this->resourceCollection = $this->createMock(Collection::class);
+        $this->collectionFactory = $this->getMockBuilder(
+            '\PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule\CollectionFactory'
+        )->disableOriginalConstructor()
+            ->onlyMethods(['create'])
+            ->getMock();
+        $this->collectionFactory->method('create')
+            ->willReturn($this->resourceCollection);
 
         $this->affiliateSchedule = new AffiliateSchedule(
             $this->context,
             $this->registry,
+            $this->collectionFactory,
             $this->resource,
             $this->resourceCollection,
             []

@@ -18,7 +18,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="affiliate_index_listing_data_source">
+        <dataProvider class="PressLoft\Affiliate\Ui\DataProvider\AffiliateSchedule\ListingDataProvider" name="affiliate_index_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>id</primaryFieldName>
@@ -58,15 +58,21 @@
         </settings>
         <column name="id" sortOrder="10">
             <settings>
-                <filter>textRange</filter>
                 <label translate="true">ID</label>
                 <sorting>asc</sorting>
+                <visible>0</visible>
             </settings>
         </column>
-        <column name="affiliate_id" sortOrder="20">
+        <column name="order_id" sortOrder="20">
             <settings>
                 <filter>textRange</filter>
-                <label translate="true">Affiliate Id</label>
+                <label translate="true">Order Id</label>
+            </settings>
+        </column>
+        <column name="token" sortOrder="25">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Token</label>
             </settings>
         </column>
         <column name="status" sortOrder="30" class="PressLoft\Affiliate\Ui\Component\Listing\Columns\Status">

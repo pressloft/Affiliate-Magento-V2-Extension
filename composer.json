@@ -1,6 +1,6 @@
 {
     "name": "pressloft/affiliate",
-    "version": "1.2.0",
+    "version": "1.4.1",
     "description": "Integrate PressLoft Affiliate program with Magento",
     "type": "magento2-module",
     "require": {

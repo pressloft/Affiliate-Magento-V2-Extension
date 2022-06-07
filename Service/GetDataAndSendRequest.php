@@ -3,33 +3,21 @@
 namespace PressLoft\Affiliate\Service;
 
 use GuzzleHttp\ClientFactory;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ResponseFactory;
 use GuzzleHttp\RequestOptions;
 use Magento\Framework\Exception\AlreadyExistsException;
-use Magento\Framework\Webapi\Rest\Request;
+use Magento\Sales\Api\Data\OrderInterface;
 use PressLoft\Affiliate\Helper\Config;
 use PressLoft\Affiliate\Model\AffiliateSchedule;
 use PressLoft\Affiliate\Model\AffiliateScheduleFactory;
 use PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule as AffiliateScheduleResourceModel;
 
-class GetDataAndSendRequest
+class GetDataAndSendRequest extends ApiRequest
 {
     /**
      * Maximum number of errors
      */
     const MAX_NUMBER_ERRORS = 3;
-
-    /**
-     * Success status code from response
-     */
-    const SUCCESS_STATUS_CODE = 200;
-
-    /**
-     * API request URL
-     */
-    const API_REQUEST_URI = 'https://affiliates.pressloft.com/';
 
     /**
      * API request endpoint to PressLoft
@@ -43,21 +31,20 @@ class GetDataAndSendRequest
     const AFFILIATE_ID = 'affiliate_id';
     const ORDER_ID = 'order_id';
     const ORDER_DETAILS = 'order_details';
+    const ORDER_DATETIME = 'order_datetime';
     const ORDER_SUBTOTAL = 'order_subtotal';
     const DISCOUNT = 'discount';
     const TAX = 'tax';
     const POSTAGE = 'postage';
     const ORDER_TOTAL = 'order_total';
-
-    /**
-     * @var ResponseFactory
-     */
-    private $responseFactory;
-
-    /**
-     * @var ClientFactory
-     */
-    private $clientFactory;
+    const ORDER_CURRENCY = 'order_currency';
+    const ORDER_LINES = 'order_lines';
+    const ORDER_LINE_PREFIX = 'order_line_';
+    const ORDER_LINE_SKU = 'sku';
+    const ORDER_LINE_PRODUCT_NAME = 'product_name';
+    const ORDER_LINE_QUANTITY = 'quantity';
+    const ORDER_LINE_UNIT_PRICE = 'unit_price';
+    const ORDER_LINE_TOTAL = 'line_total';
 
     /**
      * @var AffiliateScheduleResourceModel
@@ -97,8 +84,7 @@ class GetDataAndSendRequest
         Config $helper,
         AffiliateScheduleFactory $affiliateScheduleFactory
     ) {
-        $this->clientFactory = $clientFactory;
-        $this->responseFactory = $responseFactory;
+        parent::__construct($clientFactory, $responseFactory);
         $this->resourceModel = $resourceModel;
         $this->helper = $helper;
         $this->affiliateScheduleFactory = $affiliateScheduleFactory;
@@ -122,28 +108,17 @@ class GetDataAndSendRequest
     /**
      * Processing data and receiving a response from the API
      *
-     * @param mixed $item
+     * @param AffiliateSchedule $item
      * @return void
      * @throws AlreadyExistsException
      */
     private function processingData($item)
     {
-        $params = [
-            RequestOptions::JSON => [
-                self::TOKEN => $item->getToken(),
-                self::AFFILIATE_ID => $this->affiliateId,
-                self::ORDER_ID => $item->getOrderId(),
-                self::ORDER_DETAILS => [
-                    self::ORDER_SUBTOTAL => $item->getSubtotalInclTax(),
-                    self::DISCOUNT => $item->getDiscountAmount(),
-                    self::TAX => $item->getTaxAmount(),
-                    self::POSTAGE => $item->getShippingAmount(),
-                    self::ORDER_TOTAL => $item->getGrandTotal()
-                ]
-            ]
-        ];
+        $params = $this->prepareParams($item);
+
         $response = $this->doRequest(static::API_REQUEST_ENDPOINT, $params);
         $status = $response->getStatusCode();
+
         if ($status == self::SUCCESS_STATUS_CODE) {
             $item->setData('status', AffiliateSchedule::STATUS_SUCCESS);
         } else {
@@ -160,35 +135,59 @@ class GetDataAndSendRequest
     }
 
     /**
-     * Do API request with provided params
-     *
-     * @param string $uriEndpoint
-     * @param array<mixed> $params
-     * @param string $requestMethod
-     * @return Response
+     * @param AffiliateSchedule $scheduleItem
+     * @return array<string, array>
      */
-    private function doRequest(
-        string $uriEndpoint,
-        array $params = [],
-        string $requestMethod = Request::HTTP_METHOD_POST
-    ): Response {
-        $client = $this->clientFactory->create(['config' => [
-            'base_uri' => self::API_REQUEST_URI
-        ]]);
-
-        try {
-            $response = $client->request(
-                $requestMethod,
-                $uriEndpoint,
-                $params
-            );
-        } catch (GuzzleException $exception) {
-            $response = $this->responseFactory->create([
-                'status' => $exception->getCode(),
-                'reason' => $exception->getMessage()
-            ]);
+    private function prepareParams($scheduleItem)
+    {
+        $order = $scheduleItem->getOrder();
+        if ($order === null) {
+            return [];
         }
-        /** @var Response $response */
-        return $response;
+
+        $orderDetails = [
+            self::ORDER_SUBTOTAL => $order->getSubtotalInclTax(),
+            self::ORDER_DATETIME => $order->getCreatedAt(),
+            self::DISCOUNT => $order->getDiscountAmount(),
+            self::TAX => $order->getTaxAmount(),
+            self::POSTAGE => $order->getShippingAmount(),
+            self::ORDER_TOTAL => $order->getGrandTotal(),
+            self::ORDER_CURRENCY => $order->getOrderCurrencyCode(),
+            self::ORDER_LINES => $this->prepareOrderItems($order)
+        ];
+
+        $params = [
+            RequestOptions::JSON => [
+                self::TOKEN => $scheduleItem->getToken(),
+                self::AFFILIATE_ID => $this->affiliateId,
+                self::ORDER_ID => $scheduleItem->getOrderId(),
+                self::ORDER_DETAILS => $orderDetails
+            ]
+        ];
+
+        return $params;
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return array<string, array>
+     */
+    private function prepareOrderItems($order)
+    {
+        $orderLines = [];
+        $orderLineId = 1;
+        foreach ($order->getItems() as $orderItem) {
+            $orderLines[self::ORDER_LINE_PREFIX . $orderLineId] = [
+                self::ORDER_LINE_SKU => $orderItem->getSku(),
+                self::ORDER_LINE_PRODUCT_NAME => $orderItem->getName(),
+                self::ORDER_LINE_QUANTITY => $orderItem->getQtyOrdered(),
+                self::ORDER_LINE_UNIT_PRICE => $orderItem->getPrice(),
+                self::ORDER_LINE_TOTAL => $orderItem->getRowTotal()
+            ];
+
+            ++$orderLineId;
+        }
+
+        return $orderLines;
     }
 }

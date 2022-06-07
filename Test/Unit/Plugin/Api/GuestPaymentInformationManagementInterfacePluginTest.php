@@ -128,7 +128,7 @@ class GuestPaymentInformationManagementInterfacePluginTest extends TestCase
 
         $this->cookieManagerInterface->expects($this->any())
             ->method('getCookie')
-            ->with('token')
+            ->with(\PressLoft\Affiliate\Model\Affiliate::TOKEN)
             ->willReturn($token);
 
         $this->createAffiliateService->expects($this->any())
@@ -145,7 +145,7 @@ class GuestPaymentInformationManagementInterfacePluginTest extends TestCase
 
         $this->cookieManagerInterface->expects($this->any())
             ->method('deleteCookie')
-            ->with('token');
+            ->with(\PressLoft\Affiliate\Model\Affiliate::TOKEN);
 
         $this->assertSame($orderId, $this->object->afterSavePaymentInformationAndPlaceOrder(
             $this->subjectMock,

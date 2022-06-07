@@ -1,6 +1,8 @@
 <?php
 
 use PressLoft\Affiliate\Model\Affiliate;
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
 
 ?>
 <script>
@@ -11,13 +13,21 @@ use PressLoft\Affiliate\Model\Affiliate;
         ],
         function ($) {
             "use strict";
+            const tokenName = '<?= Affiliate::TOKEN ?>';
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams) {
-                const tokenName ='<?= Affiliate::TOKEN ?>';
                 const tokenValue = urlParams.get(tokenName);
                 if (tokenValue) {
-                    $.cookie(tokenName, tokenValue, { expires: 7, path: '/' });
+                    sendToken(tokenValue);
                 }
+            }
+
+            function sendToken(token) {
+                $.ajax({
+                    url: '<?= $escaper->escapeUrl($block->getUrl('plaffiliate/token/validate')); ?>',
+                    data: {<?= Affiliate::TOKEN ?>: token},
+                    dataType: "json"
+                });
             }
         }
     );

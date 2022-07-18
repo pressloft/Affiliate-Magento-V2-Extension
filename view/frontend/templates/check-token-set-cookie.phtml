@@ -1,6 +1,7 @@
 <?php
 
 use PressLoft\Affiliate\Model\Affiliate;
+
 /** @var \Magento\Framework\View\Element\Template $block */
 /** @var \Magento\Framework\Escaper $escaper */
 
@@ -13,7 +14,7 @@ use PressLoft\Affiliate\Model\Affiliate;
         ],
         function ($) {
             "use strict";
-            const tokenName = '<?= Affiliate::TOKEN ?>';
+            const tokenName = '<?= /* @noEscape */ Affiliate::TOKEN ?>';
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams) {
                 const tokenValue = urlParams.get(tokenName);
@@ -25,7 +26,7 @@ use PressLoft\Affiliate\Model\Affiliate;
             function sendToken(token) {
                 $.ajax({
                     url: '<?= $escaper->escapeUrl($block->getUrl('plaffiliate/token/validate')); ?>',
-                    data: {<?= Affiliate::TOKEN ?>: token},
+                    data: {<?= /* @noEscape */ Affiliate::TOKEN ?>: token},
                     dataType: "json"
                 });
             }

@@ -91,6 +91,8 @@ class Validate implements HttpGetActionInterface
     }
 
     /**
+     * Check token and set cookies
+     *
      * @param string $token
      * @return array<string, bool|string>
      */

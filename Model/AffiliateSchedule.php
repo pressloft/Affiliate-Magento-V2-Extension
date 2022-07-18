@@ -20,16 +20,16 @@ class AffiliateSchedule extends AbstractModel
     /**
      * Statuses
      */
-    const STATUS_NEW = 'new';
-    const STATUS_PENDING = 'pending';
-    const STATUS_SUCCESS = 'success';
-    const STATUS_MISSED = 'missed';
-    const STATUS_ERROR = 'error';
+    public const STATUS_NEW = 'new';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_SUCCESS = 'success';
+    public const STATUS_MISSED = 'missed';
+    public const STATUS_ERROR = 'error';
 
-    const AFFILIATE_ID = 'affiliate_id';
-    const STATUS = 'status';
-    const ORDER = 'order';
-    const ORDER_ID = 'order_id';
+    private const AFFILIATE_ID = 'affiliate_id';
+    private const STATUS = 'status';
+    private const ORDER = 'order';
+    public const ORDER_ID = 'order_id';
 
     /**
      * @var CollectionFactory
@@ -62,6 +62,8 @@ class AffiliateSchedule extends AbstractModel
     }
 
     /**
+     * Initialize model
+     *
      * @return void
      */
     protected function _construct(): void
@@ -125,6 +127,8 @@ class AffiliateSchedule extends AbstractModel
     }
 
     /**
+     * Order setter
+     *
      * @param OrderInterface $order
      * @return $this
      */
@@ -135,6 +139,8 @@ class AffiliateSchedule extends AbstractModel
     }
 
     /**
+     * Order getter
+     *
      * @return OrderInterface|null
      */
     public function getOrder()

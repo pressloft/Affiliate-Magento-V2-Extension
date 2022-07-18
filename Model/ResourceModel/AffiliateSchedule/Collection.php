@@ -14,7 +14,7 @@ class Collection extends AbstractCollection
     /**
      * Maximum number of errors
      */
-    const MAX_NUMBER_OF_ERROR = 3;
+    private const MAX_NUMBER_OF_ERROR = 3;
 
     /**
      * @var \Magento\Sales\Model\ResourceModel\Order\CollectionFactory
@@ -66,7 +66,11 @@ class Collection extends AbstractCollection
         $affiliateTable = $this->getTable('sales_order_affiliate');
         $salesOrderTable = $this->getTable('sales_order');
         $collection = $this
-            ->join($affiliateTable, 'main_table.affiliate_id=' . $affiliateTable . '.id', ['token', AffiliateSchedule::ORDER_ID])
+            ->join(
+                $affiliateTable,
+                'main_table.affiliate_id=' . $affiliateTable . '.id',
+                ['token', AffiliateSchedule::ORDER_ID]
+            )
             ->join(
                 $salesOrderTable,
                 $affiliateTable.'.order_id=' . $salesOrderTable . '.entity_id',
@@ -89,6 +93,8 @@ class Collection extends AbstractCollection
     }
 
     /**
+     * Set order to schedule
+     *
      * @param Collection<AffiliateSchedule> $scheduleCollection
      * @return Collection<AffiliateSchedule>
      */

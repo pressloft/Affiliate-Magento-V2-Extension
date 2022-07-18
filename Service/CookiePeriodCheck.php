@@ -15,16 +15,16 @@ class CookiePeriodCheck extends ApiRequest
     /**
      * API request endpoint to PressLoft
      */
-    const API_REQUEST_ENDPOINT = 'cookieperiod';
+    private const API_REQUEST_ENDPOINT = 'cookieperiod';
 
-    const API_TOKEN_PARAM = 'token';
+    private const API_TOKEN_PARAM = 'token';
 
     /**
      * Default cookie period 30 days
      */
-    const DEFAULT_COOKIE_PERIOD = 2592000;
+    private const DEFAULT_COOKIE_PERIOD = 2592000;
 
-    const COOKIE_PERIOD_PARAM = 'cookiePeriod';
+    private const COOKIE_PERIOD_PARAM = 'cookiePeriod';
 
     /**
      * @var Config
@@ -56,6 +56,8 @@ class CookiePeriodCheck extends ApiRequest
     }
 
     /**
+     * Send request and get cookie period
+     *
      * @param string $token
      * @return int|false
      */
@@ -92,6 +94,7 @@ class CookiePeriodCheck extends ApiRequest
 
     /**
      * Return cookie duration period in seconds
+     *
      * @param Response $response
      * @return int
      */

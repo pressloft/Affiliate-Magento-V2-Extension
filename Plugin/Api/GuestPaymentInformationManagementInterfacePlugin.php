@@ -39,6 +39,12 @@ class GuestPaymentInformationManagementInterfacePlugin
      */
     protected $cookieMetadataFactory;
 
+    /**
+     * @param CreateAffiliateService $createAffiliateService
+     * @param Config $helper
+     * @param CookieManagerInterface $cookieManager
+     * @param CookieMetadataFactory $cookieMetadataFactory
+     */
     public function __construct(
         CreateAffiliateService $createAffiliateService,
         Config                   $helper,
@@ -52,6 +58,8 @@ class GuestPaymentInformationManagementInterfacePlugin
     }
 
     /**
+     * Set cookies after placing order
+     *
      * @param GuestPaymentInformationManagementInterface $subject
      * @param string $orderId
      * @return string

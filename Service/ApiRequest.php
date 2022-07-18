@@ -13,14 +13,14 @@ abstract class ApiRequest
     /**
      * API request URL
      */
-    const API_REQUEST_URI = 'https://affiliates.pressloft.com/';
+    public const API_REQUEST_URI = 'https://affiliates.pressloft.com/';
 
     /**
      * Success status code from response
      */
-    const SUCCESS_STATUS_CODE = 200;
+    protected const SUCCESS_STATUS_CODE = 200;
 
-    const ERROR_STATUS_CODE = 500;
+    protected const ERROR_STATUS_CODE = 500;
 
     /**
      * @var ResponseFactory

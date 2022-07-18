@@ -11,9 +11,9 @@ class Config
     /**
      * Path to configuration
      */
-    const XML_PATH_ENABLED = 'affiliate/affiliate/enable';
-    const XML_PATH_AFFILIATE_ID = 'affiliate/affiliate/affiliate_id';
-    const XML_PATH_SYNCHRONIZED = 'affiliate/affiliate/synchronized';
+    private const XML_PATH_ENABLED = 'affiliate/affiliate/enable';
+    private const XML_PATH_AFFILIATE_ID = 'affiliate/affiliate/affiliate_id';
+    public const XML_PATH_SYNCHRONIZED = 'affiliate/affiliate/synchronized';
 
     /**
      * @var ScopeConfigInterface

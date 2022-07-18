@@ -8,6 +8,8 @@ class Status extends Column
 {
 
     /**
+     * Change status in grid
+     *
      * @param array<mixed> $dataSource
      * @return array<mixed>
      */

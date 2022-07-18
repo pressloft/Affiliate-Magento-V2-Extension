@@ -17,34 +17,34 @@ class GetDataAndSendRequest extends ApiRequest
     /**
      * Maximum number of errors
      */
-    const MAX_NUMBER_ERRORS = 3;
+    private const MAX_NUMBER_ERRORS = 3;
 
     /**
      * API request endpoint to PressLoft
      */
-    const API_REQUEST_ENDPOINT = 'sale';
+    public const API_REQUEST_ENDPOINT = 'sale';
 
     /**
      * Fields name for params
      */
-    const TOKEN = 'token';
-    const AFFILIATE_ID = 'affiliate_id';
-    const ORDER_ID = 'order_id';
-    const ORDER_DETAILS = 'order_details';
-    const ORDER_DATETIME = 'order_datetime';
-    const ORDER_SUBTOTAL = 'order_subtotal';
-    const DISCOUNT = 'discount';
-    const TAX = 'tax';
-    const POSTAGE = 'postage';
-    const ORDER_TOTAL = 'order_total';
-    const ORDER_CURRENCY = 'order_currency';
-    const ORDER_LINES = 'order_lines';
-    const ORDER_LINE_PREFIX = 'order_line_';
-    const ORDER_LINE_SKU = 'sku';
-    const ORDER_LINE_PRODUCT_NAME = 'product_name';
-    const ORDER_LINE_QUANTITY = 'quantity';
-    const ORDER_LINE_UNIT_PRICE = 'unit_price';
-    const ORDER_LINE_TOTAL = 'line_total';
+    public const TOKEN = 'token';
+    private const AFFILIATE_ID = 'affiliate_id';
+    private const ORDER_ID = 'order_id';
+    private const ORDER_DETAILS = 'order_details';
+    private const ORDER_DATETIME = 'order_datetime';
+    private const ORDER_SUBTOTAL = 'order_subtotal';
+    private const DISCOUNT = 'discount';
+    private const TAX = 'tax';
+    private const POSTAGE = 'postage';
+    private const ORDER_TOTAL = 'order_total';
+    private const ORDER_CURRENCY = 'order_currency';
+    private const ORDER_LINES = 'order_lines';
+    private const ORDER_LINE_PREFIX = 'order_line_';
+    private const ORDER_LINE_SKU = 'sku';
+    private const ORDER_LINE_PRODUCT_NAME = 'product_name';
+    private const ORDER_LINE_QUANTITY = 'quantity';
+    private const ORDER_LINE_UNIT_PRICE = 'unit_price';
+    private const ORDER_LINE_TOTAL = 'line_total';
 
     /**
      * @var AffiliateScheduleResourceModel
@@ -62,14 +62,12 @@ class GetDataAndSendRequest extends ApiRequest
     private $affiliateScheduleFactory;
 
     /**
-     * Affiliate Id
-     *
      * @var string
      */
     private $affiliateId;
 
     /**
-     * GitApiService constructor
+     * GetDataAndSendRequest constructor
      *
      * @param ClientFactory $clientFactory
      * @param ResponseFactory $responseFactory
@@ -135,6 +133,8 @@ class GetDataAndSendRequest extends ApiRequest
     }
 
     /**
+     * Prepare params for send request
+     *
      * @param AffiliateSchedule $scheduleItem
      * @return array<string, array>
      */
@@ -160,7 +160,7 @@ class GetDataAndSendRequest extends ApiRequest
             RequestOptions::JSON => [
                 self::TOKEN => $scheduleItem->getToken(),
                 self::AFFILIATE_ID => $this->affiliateId,
-                self::ORDER_ID => $scheduleItem->getOrderId(),
+                self::ORDER_ID => $order->getIncrementId(),
                 self::ORDER_DETAILS => $orderDetails
             ]
         ];
@@ -169,6 +169,8 @@ class GetDataAndSendRequest extends ApiRequest
     }
 
     /**
+     * Getting information about products
+     *
      * @param OrderInterface $order
      * @return array<string, array>
      */

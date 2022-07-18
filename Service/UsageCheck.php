@@ -13,7 +13,7 @@ class UsageCheck extends ApiRequest
     /**
      * API request endpoint and query param
      */
-    const API_REQUEST_ENDPOINT = 'heartbeat?id=';
+    private const API_REQUEST_ENDPOINT = 'heartbeat?id=';
 
     /**
      * @var Helper
@@ -43,6 +43,8 @@ class UsageCheck extends ApiRequest
     }
 
     /**
+     * Get last sync time and set to table
+     *
      * @return void
      */
     public function execute(): void

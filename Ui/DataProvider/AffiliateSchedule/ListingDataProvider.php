@@ -8,6 +8,8 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 class ListingDataProvider extends DataProvider
 {
     /**
+     * Get additional column
+     *
      * @return SearchResultInterface
      */
     public function getSearchResult()
@@ -24,6 +26,14 @@ class ListingDataProvider extends DataProvider
             [
                 'token' => 'soa.token',
                 'order_id' => 'soa.order_id',
+            ]
+        );
+
+        $result->getSelect()->join( //@phpstan-ignore-line
+            ['so' => 'sales_order'],
+            'so.entity_id' . ' = soa.order_id',
+            [
+                'increment_id' => 'so.increment_id',
             ]
         );
 

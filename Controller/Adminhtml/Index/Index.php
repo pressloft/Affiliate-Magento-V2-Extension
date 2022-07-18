@@ -23,6 +23,8 @@ class Index implements HttpGetActionInterface
     }
 
     /**
+     * Create page 'Logs'
+     *
      * @return Page
      */
     public function execute(): Page

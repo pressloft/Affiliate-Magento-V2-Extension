@@ -30,6 +30,8 @@ class UsageCheck
     }
 
     /**
+     * Cause service
+     *
      * @return void
      */
     public function execute(): void

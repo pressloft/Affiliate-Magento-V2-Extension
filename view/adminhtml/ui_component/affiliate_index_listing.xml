@@ -30,16 +30,16 @@
         <columnsControls name="columns_controls"/>
         <filterSearch name="fulltext"/>
         <filters name="listing_filters">
-            <settings>
-                <templates>
-                    <filters>
-                        <select>
-                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
-                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
-                        </select>
-                    </filters>
-                </templates>
-            </settings>
+            <filterRange name="order_id"
+                         class="Magento\Ui\Component\Filters\Type\Range"
+                         provider="${ $.parentName }"
+                         template="ui/grid/filters/elements/group" sortOrder="10">
+                <settings>
+                    <rangeType>text</rangeType>
+                    <label translate="true">Order Id</label>
+                    <dataScope>order_id</dataScope>
+                </settings>
+            </filterRange>
         </filters>
         <paging name="listing_paging"/>
     </listingToolbar>
@@ -63,9 +63,15 @@
                 <visible>0</visible>
             </settings>
         </column>
+        <column name="increment_id" sortOrder="15">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order #</label>
+            </settings>
+        </column>
         <column name="order_id" sortOrder="20">
             <settings>
-                <filter>textRange</filter>
+                <visible>false</visible>
                 <label translate="true">Order Id</label>
             </settings>
         </column>
@@ -106,5 +112,13 @@
                 <label translate="true">Failures num</label>
             </settings>
         </column>
+        <actionsColumn name="action" class="PressLoft\Affiliate\Ui\Component\Listing\Columns\View" sortOrder="70">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="viewUrlPath" xsi:type="string">sales/order/view</item>
+                    <item name="urlEntityParamName" xsi:type="string">order_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
     </columns>
 </listing>

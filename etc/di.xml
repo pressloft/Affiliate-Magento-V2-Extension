@@ -24,4 +24,9 @@
             <argument name="resourceModel" xsi:type="string">PressLoft\Affiliate\Model\ResourceModel\AffiliateSchedule</argument>
         </arguments>
     </virtualType>
+    <type name="Ebizmarts\SagePaySuite\Model\PiRequestManagement">
+        <plugin name="save_payment_information"
+                type="PressLoft\Affiliate\Plugin\Api\PiRequestManagementPlugin"
+                sortOrder="20"/>
+    </type>
 </config>
